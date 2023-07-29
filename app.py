@@ -778,5 +778,9 @@ if not app.debug:
 #----------------------------------------------------------------------------#
 
 # Run App with Default port. Debug Mode set in config.py
+# if __name__ == '__main__':
+#     app.run(debug=app.debug) # NOTE I prefer to set debug mode to true within the script
+
+
 if __name__ == '__main__':
-    app.run(debug=app.debug) # NOTE I prefer to set debug mode to true within the script
+    app.run(debug=app.config['DEBUG'])
