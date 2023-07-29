@@ -782,5 +782,8 @@ if not app.debug:
 #     app.run(debug=app.debug) # NOTE I prefer to set debug mode to true within the script
 
 
-if __name__ == '__main__':
-    app.run(debug=app.config['DEBUG'])
+# if __name__ == '__main__':
+#     app.run(debug=app.config['DEBUG'])
+
+if __name__ == "__main__":
+    app.run(debug=True, )
