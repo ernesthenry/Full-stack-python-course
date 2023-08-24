@@ -36,6 +36,7 @@ def object_as_dict(obj):
   Used in following Views:
     - /venues
   '''
+  # This is a dictionary comprehensions that loops over ORM objects and converts them into a dictionary
   return {c.key: getattr(obj, c.key)
         for c in inspect(obj).mapper.column_attrs}
 
@@ -60,7 +61,7 @@ def get_dict_list_from_result(result):
 # Filters.
 #----------------------------------------------------------------------------#
 
-def format_datetime(value, format='medium'):
+def format_datetime(value, format='full'):
   '''Converts datetime to local datetime of User
 
   * Input: 
@@ -80,7 +81,7 @@ def format_datetime(value, format='medium'):
       format="EE MM, dd, y h:mma"
   return babel.dates.format_datetime(value, format)
 
-app.jinja_env.filters['datetime'] = format_datetime
+app.jinja_env.filters['datetime'] = format_datetime # convert flask datetime to our formatted datetime
 
 #----------------------------------------------------------------------------#
 # Controllers.
@@ -103,6 +104,7 @@ def index():
   # Bonus: List recently listed Artists & Venues
   recent_artists = Artist.query.order_by(Artist.id.desc()).limit(10).all()
   recent_venues = Venue.query.order_by(Venue.id.desc()).limit(10).all()
+  #pass this data as a context or dictionary
   return render_template('pages/home.html', recent_artists = recent_artists, recent_venues = recent_venues)
 
 
@@ -143,6 +145,8 @@ def venues():
   for area in data:
     # This will add a new key to the dictionary called "venues".
     # It gets filled with a list of venues that are in the same city-
+    # data is a list of dictionaries
+    # add a key called venue
     area['venues'] = [object_as_dict(ven) for ven in Venue.query.filter_by(city = area['city']).all()]
     # Step 3: Append num_shows
     for ven in area['venues']:

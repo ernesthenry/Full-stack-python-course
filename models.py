@@ -12,9 +12,13 @@ from config import SQLALCHEMY_DATABASE_URI # Import local database URI from Conf
 # App Config.
 #----------------------------------------------------------------------------#
 
+# redirect(url_for('home.html')
+# )
+
 app = Flask(__name__)
 app.config.from_object('config')
 moment = Moment(app)
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -47,6 +51,8 @@ class Venue(db.Model):
     genres = db.Column(db.ARRAY(db.String())) # To store multiple Genres, I decided to create an Array Column with String as Datatype
     seeking_description = db.Column(db.String(500)) # Because descriptions can be a little bit longer, I decided to accept input up to 500 characters
     venues = db.relationship('Artist', secondary=Show, backref=db.backref('shows', lazy='joined'))
+
+    # def format_record()
     def __repr__(self):
         return 'Venue Id:{} | Name: {}'.format(self.id, self.name)
 
